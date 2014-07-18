@@ -6,22 +6,36 @@ The code for loading dataset,required packages and preprocessing steps into R is
 
 ```r
 activity <- read.csv("activity.csv")
+```
+
+```
+## Warning: cannot open file 'activity.csv': No such file or directory
+```
+
+```
+## Error: cannot open the connection
+```
+
+```r
 
 suppressWarnings(library(lubridate))
 
 suppressWarnings(library(ggplot2))
 
 activity$day <- weekdays(as.Date(activity$date))
+```
+
+```
+## Error: object 'activity' not found
+```
+
+```r
 
 str(activity)
 ```
 
 ```
-## 'data.frame':	17568 obs. of  4 variables:
-##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
-##  $ date    : Factor w/ 61 levels "2012-10-01","2012-10-02",..: 1 1 1 1 1 1 1 1 1 1 ...
-##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
-##  $ day     : chr  "Monday" "Monday" "Monday" "Monday" ...
+## Error: object 'activity' not found
 ```
 
 
@@ -31,13 +45,29 @@ Histogram of the total number of steps taken each day is
 
 ```r
 steps.date <- aggregate(activity$steps, by = list(activity$date), FUN = sum)
+```
+
+```
+## Error: object 'activity' not found
+```
+
+```r
 
 names(steps.date) <- c("date", "steps")
+```
+
+```
+## Error: object 'steps.date' not found
+```
+
+```r
 
 qplot(steps, data = steps.date, binwidth = 1400) + theme_bw()
 ```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1.png) 
+```
+## Error: object 'steps.date' not found
+```
 
 
 Mean of total number of steps taken per day is
@@ -47,7 +77,7 @@ mean(steps.date$steps, na.rm = T)
 ```
 
 ```
-## [1] 10766
+## Error: object 'steps.date' not found
 ```
 
 
@@ -59,7 +89,7 @@ median(steps.date$steps, na.rm = T)
 ```
 
 ```
-## [1] 10765
+## Error: object 'steps.date' not found
 ```
 
 
@@ -69,12 +99,21 @@ Time series plot of the 5-minute interval (x-axis) and the average number of ste
 
 ```r
 steps.interval <- aggregate(steps ~ interval, data = activity, FUN = mean, na.rm = T)
+```
+
+```
+## Error: object 'activity' not found
+```
+
+```r
 
 ggplot(steps.interval, aes(interval, steps)) + geom_line(color = "blue") + theme_bw() + 
     labs(x = "Interval", y = "Average Number of Steps")
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+```
+## Error: object 'steps.interval' not found
+```
 
 
 The 5-minute interval, on average across all the days in the dataset that contains the maximum number of steps is
@@ -85,7 +124,7 @@ steps.interval[which.max(steps.interval$steps), ]$interval
 ```
 
 ```
-## [1] 835
+## Error: object 'steps.interval' not found
 ```
 
 
@@ -99,7 +138,7 @@ sum(is.na(activity))
 ```
 
 ```
-## [1] 2304
+## Error: object 'activity' not found
 ```
 
 
@@ -108,10 +147,28 @@ All the missing values in the dataset are filled with mean for that 5-minute int
 
 ```r
 a <- merge(activity, steps.interval, by = "interval", suffixes = c("", ".y"))
+```
+
+```
+## Error: object 'activity' not found
+```
+
+```r
 
 b <- is.na(a$steps)
+```
+
+```
+## Error: $ operator is invalid for atomic vectors
+```
+
+```r
 
 a$steps[b] <- a$steps.y[b]
+```
+
+```
+## Error: $ operator is invalid for atomic vectors
 ```
 
 
@@ -119,8 +176,22 @@ Create a new dataset that is equal to the original dataset but with the missing 
 
 ```r
 a <- a[, c(-5)]
+```
+
+```
+## Error: incorrect number of dimensions
+```
+
+```r
 
 a <- a[order(a$date), ]
+```
+
+```
+## Error: $ operator is invalid for atomic vectors
+```
+
+```r
 
 activity1 <- a
 ```
@@ -130,13 +201,29 @@ Histogram of the total number of steps taken each day with the new dataset is
 
 ```r
 steps.date1 <- aggregate(activity1$steps, by = list(activity1$date), FUN = sum)
+```
+
+```
+## Error: $ operator is invalid for atomic vectors
+```
+
+```r
 
 names(steps.date1) <- c("date", "steps")
+```
+
+```
+## Error: object 'steps.date1' not found
+```
+
+```r
 
 qplot(steps, data = steps.date1, binwidth = 1400) + theme_bw()
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
+```
+## Error: object 'steps.date1' not found
+```
 
 
 Mean of total number of steps taken per day using the new dataset is
@@ -147,7 +234,7 @@ mean(steps.date1$steps, na.rm = T)
 ```
 
 ```
-## [1] 10766
+## Error: object 'steps.date1' not found
 ```
 
 
@@ -159,7 +246,7 @@ median(steps.date1$steps, na.rm = T)
 ```
 
 ```
-## [1] 10766
+## Error: object 'steps.date1' not found
 ```
 
 
@@ -173,8 +260,19 @@ Create a new factor variable in the dataset with two levels - "weekday" and "wee
 ```r
 activity1$daytype <- ifelse(activity1$day %in% c("Saturday", "Sunday"), "Weekend", 
     "Weekday")
+```
+
+```
+## Error: $ operator is invalid for atomic vectors
+```
+
+```r
 
 activity1$daytype <- as.factor(activity1$daytype)
+```
+
+```
+## Error: $ operator is invalid for atomic vectors
 ```
 
 
@@ -184,13 +282,22 @@ Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minut
 ```r
 steps.interval1 <- aggregate(steps ~ interval + daytype, data = activity1, FUN = mean, 
     na.rm = T)
+```
+
+```
+## Error: invalid 'envir' argument of type 'character'
+```
+
+```r
 
 ggplot(steps.interval1, aes(interval, steps)) + geom_line(color = "blue") + 
     theme_bw() + labs(x = "Interval", y = "Average Number of Steps") + facet_wrap(~daytype, 
     nrow = 2, ncol = 1)
 ```
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
+```
+## Error: object 'steps.interval1' not found
+```
 
 
 In summary, there are several significant differences between the weekday and weekend profiles.
